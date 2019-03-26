@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HabaneroCodeTest.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,6 +23,9 @@ namespace HabaneroCodeTest.Controllers
 
         public ActionResult Contact()
         {
+            GamesData games = ProcessController.GetGames(new BaseApiData { });
+            ViewBag.GameList = games.games;
+
             ViewBag.Message = "Your contact page.";
 
             return View();

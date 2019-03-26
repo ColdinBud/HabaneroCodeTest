@@ -1,8 +1,18 @@
 ﻿@{
     ViewBag.Title = "Contact";
+
+    var gameList = ViewBag.GameList;
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
+
+
+@foreach (var game in gameList)
+{
+    <div>
+        @game.name
+    </div>
+}
 
 <address>
     One Microsoft Way<br />
