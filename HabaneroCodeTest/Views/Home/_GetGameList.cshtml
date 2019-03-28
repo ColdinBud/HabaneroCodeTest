@@ -1,0 +1,158 @@
+﻿@{
+    var sortedGameList = ViewBag.SortedGameList;
+
+    var gameList = ViewBag.GameList;
+
+    var langList = ViewBag.LangList;
+
+    var lang = ViewBag.Lang;
+}
+
+
+    @Html.DropDownList("langSelector", (SelectList)langList)
+
+    <div class="inner-addon left-addon">
+        <i class="glyphicon glyphicon-search"></i>
+        <input id="searchBox" type="text" class="form-control" />
+    </div>
+
+<div style="clear:both;"></div>
+
+@if (sortedGameList != null && sortedGameList.Count > 0)
+{
+    <div id="tabs">
+        <ul>
+            @foreach (var item in sortedGameList)
+            {
+                <li><a href="#tabs-@item.Key">@item.Value[0].gameTypeName</a></li>
+            }
+        </ul>
+
+        @foreach (var item in sortedGameList)
+        {
+
+            <div class="container" id="tabs-@item.Key">
+                @foreach (var ga in item.Value)
+                {
+                        <div class="Block_shadow_1" id="@ga.keyName.ToUpper()">
+                            <a href="https://app-test.insvr.com/play?brandid=&keyname=@(ga.keyName)&mode=fun&locale=@(lang)&lobbyurl=" 
+                               style="text-decoration:none;" target="_blank" rel="noreferrer">
+                    
+                            <div style="height:45px;">
+                                @if (lang == "en")
+                                {
+                                    <span>@ga.name &nbsp; @ga.simplifiedChineseName</span>
+                                }
+                                else
+                                {
+                                    <span>@ga.translatedName</span>
+                                }
+                            </div>
+
+                            <img title="@ga.name" alt="@ga.name" data-src="https://app-test.insvr.com/img/oval/220/@(ga.brandGameId)_@(lang).png" />
+                            </a>
+                        </div>
+                    
+                }
+            </div>
+
+        }
+    </div>
+}
+
+<style>
+    .Block_shadow_1 {
+        height: 180px;
+        width: 250px;
+        -moz-box-shadow: 0 0 5px #888;
+        -webkit-box-shadow: 0 0 5px#888;
+        box-shadow: 0 0 5px #888;
+        background-color: #FFFFBB;
+        padding: 2px;
+        float: left;
+        text-align: center;
+    }
+
+        .Block_shadow_1:hover {
+            /* 加粗的陰影外框 */
+            -moz-box-shadow: 0 0 5px 5px #888;
+            -webkit-box-shadow: 0 0 5px 5px#888;
+            box-shadow: 0 0 5px 5px #888;
+            background-color: #5599FF;
+        }
+
+    .inner-addon {
+        position: relative;
+        width: 200px;
+        float: left;
+        margin: 5px;
+    }
+
+        /* style icon */
+        .inner-addon .glyphicon {
+            position: absolute;
+            padding: 10px;
+            pointer-events: none;
+        }
+
+    /* align icon */
+    .left-addon .glyphicon {
+        left: 0px;
+    }
+
+    .right-addon .glyphicon {
+        right: 0px;
+    }
+
+    /* add padding  */
+    .left-addon input {
+        padding-left: 30px;
+    }
+
+    .right-addon input {
+        padding-right: 30px;
+    }
+
+    #langSelector {
+        text-align: center;
+        width: 100px;
+        height: 34px;
+        float: left;
+        margin: 5px;
+    }
+</style>
+
+<script>
+    $(function () {
+        $("#tabs").tabs();
+        $("img").lazyload();
+    });
+
+    $("#langSelector").change(function () {
+        $.ajax({
+            url: '@Url.Action("_GetGameList")' + "?locale=" + $(this).val(),
+            type: 'POST',
+            success: function (data) {
+                $("#result").html(data);
+            }
+        });
+    });
+
+    $("#searchBox").on('keyup', function () {
+
+        $(this).val($(this).val().replace(/[^\a-\z\A-\Z0-9]/g,""));
+        var str = $(this).val().toUpperCase();
+
+        if (str != null && str != "") {
+            
+            $(".Block_shadow_1").hide();
+
+            var name = "div[id*=" + str + "]";
+            $(name).show();
+        }
+        else {
+            $(".Block_shadow_1").show();
+        }
+    });
+
+</script>

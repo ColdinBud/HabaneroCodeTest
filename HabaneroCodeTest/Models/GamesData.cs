@@ -45,14 +45,21 @@ namespace HabaneroCodeTest.Models
             public string keyName { get; set; }
             [JsonProperty("GameTypeId")]
             public int gameTypeId { get; set; }
+            [JsonProperty("GameTypeName")]
+            public string gameTypeName { get; set; }
+            //[JsonProperty("GameTypeDisplayName")]
+            //public string gameTypeDisplayName { get; set; }
             [JsonProperty("TranslatedNames")]
             public List<TranslatedName> translatedNames { get; set; }
+
+            public string translatedName { get; set; }
+            public string simplifiedChineseName { get; set; }
         }
 
         public class TranslatedName
         {
-            [JsonProperty("LanguagedId")]
-            public int languagedId { get; set; }
+            [JsonProperty("LanguageId")]
+            public int languageId { get; set; }
             [JsonProperty("Locale")]
             public string locale { get; set; }
             [JsonProperty("Translation")]

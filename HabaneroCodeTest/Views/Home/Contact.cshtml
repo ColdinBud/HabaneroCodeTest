@@ -1,27 +1,31 @@
 ﻿@{
     ViewBag.Title = "Contact";
 
+    var sortedGameList = ViewBag.SortedGameList;
+
     var gameList = ViewBag.GameList;
+
+    var langList = ViewBag.LangList;
+
+    var lang = ViewBag.Lang;
+
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
 
-@foreach (var game in gameList)
-{
-    <div>
-        @game.name
-    </div>
-}
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<div id="result">
+
+</div>
+
+    
+
+<script>
+
+
+    $(function () {
+        $("#result").load("/Home/_GetGameList");
+    });
+</script>
